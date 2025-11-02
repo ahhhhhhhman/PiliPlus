@@ -75,7 +75,7 @@ class DynamicsDataModel {
           }
         }
         if (filterBan &&
-            tempBannedList!.contains(item.modules.moduleAuthor?.mid)) {
+            tempBannedList!.contains(int.tryParse(item.modules.moduleAuthor?.mid?.toString() ?? ''))) {
           continue;
         }
         items!.add(item);
