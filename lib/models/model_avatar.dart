@@ -27,8 +27,13 @@ class BaseOfficialVerify {
   String? desc;
 
   BaseOfficialVerify.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    desc = json['desc'];
+    try {
+      type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
+      desc = json['desc'];
+    } catch (e) {
+      print('❌ [BaseOfficialVerify] type 类型转换异常: $e');
+      type = null;
+    }
   }
 }
 
@@ -38,9 +43,19 @@ class Vip {
   Label? label;
 
   Vip.fromJson(Map<String, dynamic> json) {
-    type = json['type'] ?? json['vipType'];
-    status = json['status'] ?? json['vipStatus'] ?? 0;
-    if (json['label'] != null) label = Label.fromJson(json['label']);
+    try {
+      type = (json['type'] ?? json['vipType']) is String 
+          ? int.tryParse(json['type'] ?? json['vipType']) 
+          : json['type'] ?? json['vipType'];
+      status = (json['status'] ?? json['vipStatus'] ?? 0) is String
+          ? int.tryParse(json['status'] ?? json['vipStatus'] ?? '0') ?? 0
+          : json['status'] ?? json['vipStatus'] ?? 0;
+      if (json['label'] != null) label = Label.fromJson(json['label']);
+    } catch (e) {
+      print('❌ [Vip] VIP信息类型转换异常: $e');
+      type = null;
+      status = 0;
+    }
   }
 }
 

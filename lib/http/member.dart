@@ -425,13 +425,21 @@ class MemberHttp {
     );
     if (res.data['code'] == 0) {
       try {
+        print('🔍 [memberDynamic] 开始解析动态数据...');
+        print('🔍 [memberDynamic] 数据结构: ${res.data['data'].runtimeType}');
+        print('🔍 [memberDynamic] 数据内容: ${res.data['data']}');
+        
         DynamicsDataModel data = DynamicsDataModel.fromJson(res.data['data']);
+        
         if (data.loadNext == true) {
           return memberDynamic(offset: data.offset, mid: mid);
         }
         return Success(data);
-      } catch (err) {
-        return Error(err.toString());
+      } catch (err, stackTrace) {
+        print('❌ [memberDynamic] 动态数据解析失败: $err');
+        print('❌ [memberDynamic] 堆栈信息: $stackTrace');
+        print('❌ [memberDynamic] 原始数据: ${res.data['data']}');
+        return Error('动态数据解析失败: $err');
       }
     } else {
       Map errMap = const {

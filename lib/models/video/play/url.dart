@@ -51,15 +51,15 @@ class PlayUrlModel {
     from = json['from'];
     result = json['result'];
     message = json['message'];
-    quality = json['quality'];
+    quality = json['quality'] is String ? int.tryParse(json['quality']) : json['quality'];
     format = json['format'];
-    timeLength = json['timelength'];
+    timeLength = json['timelength'] is String ? int.tryParse(json['timelength']) : json['timelength'];
     acceptFormat = json['accept_format'];
     acceptDesc = json['accept_description'];
     acceptQuality = (json['accept_quality'] as List?)
-        ?.map<int>((e) => e as int)
+        ?.map<int>((e) => e is String ? int.tryParse(e) ?? 0 : e as int)
         .toList();
-    videoCodecid = json['video_codecid'];
+    videoCodecid = json['video_codecid'] is String ? int.tryParse(json['video_codecid']) : json['video_codecid'];
     seekParam = json['seek_param'];
     seekType = json['seek_type'];
     dash = json['dash'] != null ? Dash.fromJson(json['dash']) : null;
@@ -68,8 +68,8 @@ class PlayUrlModel {
         ?.map<FormatItem>((e) => FormatItem.fromJson(e))
         .toList();
     volume = json['volume'] == null ? null : Volume.fromJson(json['volume']);
-    lastPlayTime = json['last_play_time'];
-    lastPlayCid = json['last_play_cid'];
+    lastPlayTime = json['last_play_time'] is String ? int.tryParse(json['last_play_time']) : json['last_play_time'];
+    lastPlayCid = json['last_play_cid'] is String ? int.tryParse(json['last_play_cid']) : json['last_play_cid'];
     curLanguage = json['cur_language'];
     language = json['language'] == null
         ? null

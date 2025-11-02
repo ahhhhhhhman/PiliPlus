@@ -75,7 +75,7 @@ class DynamicsDataModel {
           }
         }
         if (filterBan &&
-            tempBannedList!.contains(int.tryParse(item.modules.moduleAuthor?.mid?.toString() ?? ''))) {
+            tempBannedList!.contains(item.modules.moduleAuthor?.mid)) {
           continue;
         }
         items!.add(item);
@@ -87,7 +87,7 @@ class DynamicsDataModel {
     }
 
     offset = json['offset'];
-    total = json['total'];
+    total = json['total'] is String ? int.tryParse(json['total']) : json['total'];
   }
 }
 
@@ -144,10 +144,20 @@ class Fallback {
     this.type,
   });
 
-  factory Fallback.fromJson(Map<String, dynamic> json) => Fallback(
-    id: json['id'],
-    type: json['type'],
-  );
+  factory Fallback.fromJson(Map<String, dynamic> json) {
+    try {
+      return Fallback(
+        id: json['id'],
+        type: json['type'] is String ? int.tryParse(json['type']) : json['type'],
+      );
+    } catch (e) {
+      print('❌ [Fallback] 降级类型转换异常: $e');
+      return Fallback(
+        id: json['id'],
+        type: null,
+      );
+    }
+  }
 }
 
 // 单个动态详情
@@ -249,9 +259,16 @@ class ModuleFold {
   int? type;
 
   ModuleFold.fromJson(Map<String, dynamic> json) {
-    ids = (json['ids'] as List?)?.fromCast();
-    statement = json['statement'];
-    type = json['type'];
+    try {
+      ids = (json['ids'] as List?)?.fromCast();
+      statement = json['statement'];
+      type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
+    } catch (e) {
+      print('❌ [ModuleFold] 折叠模块类型转换异常: $e');
+      ids = (json['ids'] as List?)?.fromCast();
+      statement = json['statement'];
+      type = null;
+    }
   }
 }
 
@@ -262,10 +279,18 @@ class ModuleCollection {
   String? title;
 
   ModuleCollection.fromJson(Map<String, dynamic> json) {
-    count = json['count'];
-    id = json['id'];
-    name = json['name'];
-    title = json['title'];
+    try {
+      count = json['count'];
+      id = json['id'] is String ? int.tryParse(json['id']) : json['id'];
+      name = json['name'];
+      title = json['title'];
+    } catch (e) {
+      print('❌ [ModuleCollection] 收藏模块类型转换异常: $e');
+      count = json['count'];
+      id = null;
+      name = json['name'];
+      title = json['title'];
+    }
   }
 }
 
@@ -284,10 +309,18 @@ class ModuleTopDisplay {
   int? type;
 
   ModuleTopDisplay.fromJson(Map<String, dynamic> json) {
-    album = json['album'] == null
-        ? null
-        : ModuleTopAlbum.fromJson(json['album']);
-    type = json['type'];
+    try {
+      album = json['album'] == null
+          ? null
+          : ModuleTopAlbum.fromJson(json['album']);
+      type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
+    } catch (e) {
+      print('❌ [ModuleTopDisplay] 顶部显示类型转换异常: $e');
+      album = json['album'] == null
+          ? null
+          : ModuleTopAlbum.fromJson(json['album']);
+      type = null;
+    }
   }
 }
 
@@ -296,8 +329,14 @@ class ModuleTopAlbum {
   int? type;
 
   ModuleTopAlbum.fromJson(Map<String, dynamic> json) {
-    pics = (json['pics'] as List?)?.map((e) => Pic.fromJson(e)).toList();
-    type = json['type'];
+    try {
+      pics = (json['pics'] as List?)?.map((e) => Pic.fromJson(e)).toList();
+      type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
+    } catch (e) {
+      print('❌ [ModuleTopAlbum] 顶部相册类型转换异常: $e');
+      pics = (json['pics'] as List?)?.map((e) => Pic.fromJson(e)).toList();
+      type = null;
+    }
   }
 }
 
@@ -310,12 +349,22 @@ class ModuleBlocked {
   BgImg? icon;
 
   ModuleBlocked.fromJson(Map<String, dynamic> json) {
-    bgImg = json['bg_img'] == null ? null : BgImg.fromJson(json['bg_img']);
-    blockedType = json['blocked_type'];
-    button = json['button'] == null ? null : Button.fromJson(json['button']);
-    title = json['title'];
-    hintMessage = json['hint_message'];
-    icon = json['icon'] == null ? null : BgImg.fromJson(json['icon']);
+    try {
+      bgImg = json['bg_img'] == null ? null : BgImg.fromJson(json['bg_img']);
+      blockedType = json['blocked_type'] is String ? int.tryParse(json['blocked_type']) : json['blocked_type'];
+      button = json['button'] == null ? null : Button.fromJson(json['button']);
+      title = json['title'];
+      hintMessage = json['hint_message'];
+      icon = json['icon'] == null ? null : BgImg.fromJson(json['icon']);
+    } catch (e) {
+      print('❌ [ModuleBlocked] 屏蔽模块类型转换异常: $e');
+      bgImg = json['bg_img'] == null ? null : BgImg.fromJson(json['bg_img']);
+      blockedType = null;
+      button = json['button'] == null ? null : Button.fromJson(json['button']);
+      title = json['title'];
+      hintMessage = json['hint_message'];
+      icon = json['icon'] == null ? null : BgImg.fromJson(json['icon']);
+    }
   }
 }
 
@@ -330,16 +379,30 @@ class Button {
   Check? check;
 
   Button.fromJson(Map<String, dynamic> json) {
-    handleType = json['handle_type'];
-    icon = json['icon'];
-    jumpUrl = json['jump_url'];
-    text = json['text'];
-    jumpStyle = json['jump_style'] == null
-        ? null
-        : JumpStyle.fromJson(json['jump_style']);
-    status = json['status'];
-    type = json['type'];
-    check = json['check'] == null ? null : Check.fromJson(json['check']);
+    try {
+      handleType = json['handle_type'] is String ? int.tryParse(json['handle_type']) : json['handle_type'];
+      icon = json['icon'];
+      jumpUrl = json['jump_url'];
+      text = json['text'];
+      jumpStyle = json['jump_style'] == null
+          ? null
+          : JumpStyle.fromJson(json['jump_style']);
+      status = json['status'] is String ? int.tryParse(json['status']) : json['status'];
+      type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
+      check = json['check'] == null ? null : Check.fromJson(json['check']);
+    } catch (e) {
+      print('❌ [Button] 按钮类型转换异常: $e');
+      handleType = null;
+      icon = json['icon'];
+      jumpUrl = json['jump_url'];
+      text = json['text'];
+      jumpStyle = json['jump_style'] == null
+          ? null
+          : JumpStyle.fromJson(json['jump_style']);
+      status = null;
+      type = null;
+      check = json['check'] == null ? null : Check.fromJson(json['check']);
+    }
   }
 }
 
@@ -348,8 +411,14 @@ class Check {
   String? text;
 
   Check.fromJson(Map<String, dynamic> json) {
-    disable = json['disable'];
-    text = json['text'];
+    try {
+      disable = json['disable'] is String ? int.tryParse(json['disable']) : json['disable'];
+      text = json['text'];
+    } catch (e) {
+      print('❌ [Check] 检查框类型转换异常: $e');
+      disable = null;
+      text = json['text'];
+    }
   }
 }
 
@@ -370,10 +439,18 @@ class Basic {
   String? ridStr;
 
   Basic.fromJson(Map<String, dynamic> json) {
-    commentIdStr = json['comment_id_str'];
-    commentType = json['comment_type'];
-    likeIcon = json['like_icon'];
-    ridStr = json['rid_str'];
+    try {
+      commentIdStr = json['comment_id_str'];
+      commentType = json['comment_type'] is String ? int.tryParse(json['comment_type']) : json['comment_type'];
+      likeIcon = json['like_icon'];
+      ridStr = json['rid_str'];
+    } catch (e) {
+      print('❌ [Basic] 基础信息类型转换异常: $e');
+      commentIdStr = json['comment_id_str'];
+      commentType = null;
+      likeIcon = json['like_icon'];
+      ridStr = json['rid_str'];
+    }
   }
 }
 
@@ -397,7 +474,8 @@ class ModuleAuthorModel extends Avatar {
     label = json['label'];
     pubAction = json['pub_action'];
     pubTime = json['pub_time'];
-    pubTs = json['pub_ts'] == 0 ? null : json['pub_ts'];
+    pubTs = json['pub_ts'] is String ? int.tryParse(json['pub_ts']) ?? 0 : json['pub_ts'];
+    pubTs = pubTs == 0 ? null : pubTs;
     type = json['type'];
     if (PendantAvatar.showDynDecorate) {
       decorate = json['decorate'] == null
@@ -426,14 +504,28 @@ class Decorate {
     this.type,
   });
 
-  factory Decorate.fromJson(Map<String, dynamic> json) => Decorate(
-    cardUrl: json["card_url"],
-    fan: json["fan"] == null ? null : Fan.fromJson(json["fan"]),
-    id: json["id"],
-    jumpUrl: json["jump_url"],
-    name: json["name"],
-    type: json["type"],
-  );
+  factory Decorate.fromJson(Map<String, dynamic> json) {
+    try {
+      return Decorate(
+        cardUrl: json["card_url"],
+        fan: json["fan"] == null ? null : Fan.fromJson(json["fan"]),
+        id: json["id"] is String ? int.tryParse(json["id"]) : json["id"],
+        jumpUrl: json["jump_url"],
+        name: json["name"],
+        type: json["type"] is String ? int.tryParse(json["type"]) : json["type"],
+      );
+    } catch (e) {
+      print('❌ [Decorate] 装饰类型转换异常: $e');
+      return Decorate(
+        cardUrl: json["card_url"],
+        fan: json["fan"] == null ? null : Fan.fromJson(json["fan"]),
+        id: null,
+        jumpUrl: json["jump_url"],
+        name: json["name"],
+        type: null,
+      );
+    }
+  }
 }
 
 class Fan {
@@ -451,13 +543,26 @@ class Fan {
     this.number,
   });
 
-  factory Fan.fromJson(Map<String, dynamic> json) => Fan(
-    color: json["color"],
-    isFan: json["is_fan"],
-    numPrefix: json["num_prefix"],
-    numStr: json["num_str"],
-    number: json["number"],
-  );
+  factory Fan.fromJson(Map<String, dynamic> json) {
+    try {
+      return Fan(
+        color: json["color"],
+        isFan: json["is_fan"],
+        numPrefix: json["num_prefix"],
+        numStr: json["num_str"],
+        number: json["number"] is String ? int.tryParse(json["number"]) : json["number"],
+      );
+    } catch (e) {
+      print('❌ [Fan] Fan信息类型转换异常: $e');
+      return Fan(
+        color: json["color"],
+        isFan: json["is_fan"],
+        numPrefix: json["num_prefix"],
+        numStr: json["num_str"],
+        number: null,
+      );
+    }
+  }
 }
 
 // 单个动态详情 - 动态信息
@@ -579,19 +684,38 @@ class MatchInfo {
     this.title,
   });
 
-  factory MatchInfo.fromJson(Map<String, dynamic> json) => MatchInfo(
-    centerBottom: json["center_bottom"],
-    centerTop: json["center_top"],
-    leftTeam: json["left_team"] == null
-        ? null
-        : TTeam.fromJson(json["left_team"]),
-    rightTeam: json["right_team"] == null
-        ? null
-        : TTeam.fromJson(json["right_team"]),
-    status: json["status"],
-    subTitle: json["sub_title"],
-    title: json["title"],
-  );
+  factory MatchInfo.fromJson(Map<String, dynamic> json) {
+    try {
+      return MatchInfo(
+        centerBottom: json["center_bottom"],
+        centerTop: json["center_top"],
+        leftTeam: json["left_team"] == null
+            ? null
+            : TTeam.fromJson(json["left_team"]),
+        rightTeam: json["right_team"] == null
+            ? null
+            : TTeam.fromJson(json["right_team"]),
+        status: json["status"] is String ? int.tryParse(json["status"]) : json["status"],
+        subTitle: json["sub_title"],
+        title: json["title"],
+      );
+    } catch (e) {
+      print('❌ [MatchInfo] 比赛信息类型转换异常: $e');
+      return MatchInfo(
+        centerBottom: json["center_bottom"],
+        centerTop: json["center_top"],
+        leftTeam: json["left_team"] == null
+            ? null
+            : TTeam.fromJson(json["left_team"]),
+        rightTeam: json["right_team"] == null
+            ? null
+            : TTeam.fromJson(json["right_team"]),
+        status: null,
+        subTitle: json["sub_title"],
+        title: json["title"],
+      );
+    }
+  }
 }
 
 class TTeam {
@@ -605,11 +729,22 @@ class TTeam {
     this.pic,
   });
 
-  factory TTeam.fromJson(Map<String, dynamic> json) => TTeam(
-    id: json["id"],
-    name: json["name"],
-    pic: json["pic"],
-  );
+  factory TTeam.fromJson(Map<String, dynamic> json) {
+    try {
+      return TTeam(
+        id: json["id"] is String ? int.tryParse(json["id"]) : json["id"],
+        name: json["name"],
+        pic: json["pic"],
+      );
+    } catch (e) {
+      print('❌ [TTeam] 球队信息类型转换异常: $e');
+      return TTeam(
+        id: null,
+        name: json["name"],
+        pic: json["pic"],
+      );
+    }
+  }
 }
 
 class AddCommon {
@@ -637,18 +772,36 @@ class AddCommon {
     this.title,
   });
 
-  factory AddCommon.fromJson(Map<String, dynamic> json) => AddCommon(
-    button: json["button"] == null ? null : Button.fromJson(json["button"]),
-    cover: json["cover"],
-    desc1: json["desc1"],
-    desc2: json["desc2"],
-    headText: json["head_text"],
-    idStr: json["id_str"],
-    jumpUrl: json["jump_url"],
-    style: json["style"],
-    subType: json["sub_type"],
-    title: json["title"],
-  );
+  factory AddCommon.fromJson(Map<String, dynamic> json) {
+    try {
+      return AddCommon(
+        button: json["button"] == null ? null : Button.fromJson(json["button"]),
+        cover: json["cover"],
+        desc1: json["desc1"],
+        desc2: json["desc2"],
+        headText: json["head_text"],
+        idStr: json["id_str"],
+        jumpUrl: json["jump_url"],
+        style: json["style"] is String ? int.tryParse(json["style"]) : json["style"],
+        subType: json["sub_type"],
+        title: json["title"],
+      );
+    } catch (e) {
+      print('❌ [AddCommon] 添加信息类型转换异常: $e');
+      return AddCommon(
+        button: json["button"] == null ? null : Button.fromJson(json["button"]),
+        cover: json["cover"],
+        desc1: json["desc1"],
+        desc2: json["desc2"],
+        headText: json["head_text"],
+        idStr: json["id_str"],
+        jumpUrl: json["jump_url"],
+        style: null,
+        subType: json["sub_type"],
+        title: json["title"],
+      );
+    }
+  }
 }
 
 class UpowerLottery {
@@ -676,18 +829,36 @@ class UpowerLottery {
     this.upowerLevel,
   });
 
-  factory UpowerLottery.fromJson(Map<String, dynamic> json) => UpowerLottery(
-    button: json["button"] == null ? null : Button.fromJson(json["button"]),
-    desc: json["desc"] == null ? null : Desc.fromJson(json["desc"]),
-    hint: json["hint"] == null ? null : Hint.fromJson(json["hint"]),
-    jumpUrl: json["jump_url"],
-    rid: json["rid"],
-    state: json["state"],
-    title: json["title"],
-    upMid: json["up_mid"],
-    upowerActionState: json["upower_action_state"],
-    upowerLevel: json["upower_level"],
-  );
+  factory UpowerLottery.fromJson(Map<String, dynamic> json) {
+    try {
+      return UpowerLottery(
+        button: json["button"] == null ? null : Button.fromJson(json["button"]),
+        desc: json["desc"] == null ? null : Desc.fromJson(json["desc"]),
+        hint: json["hint"] == null ? null : Hint.fromJson(json["hint"]),
+        jumpUrl: json["jump_url"],
+        rid: json["rid"] is String ? int.tryParse(json["rid"]) : json["rid"],
+        state: json["state"] is String ? int.tryParse(json["state"]) : json["state"],
+        title: json["title"],
+        upMid: json["up_mid"] is String ? int.tryParse(json["up_mid"]) : json["up_mid"],
+        upowerActionState: json["upower_action_state"] is String ? int.tryParse(json["upower_action_state"]) : json["upower_action_state"],
+        upowerLevel: json["upower_level"] is String ? int.tryParse(json["upower_level"]) : json["upower_level"],
+      );
+    } catch (e) {
+      print('❌ [UpowerLottery] 天气福利类型转换异常: $e');
+      return UpowerLottery(
+        button: json["button"] == null ? null : Button.fromJson(json["button"]),
+        desc: json["desc"] == null ? null : Desc.fromJson(json["desc"]),
+        hint: json["hint"] == null ? null : Hint.fromJson(json["hint"]),
+        jumpUrl: json["jump_url"],
+        rid: null,
+        state: null,
+        title: json["title"],
+        upMid: null,
+        upowerActionState: null,
+        upowerLevel: null,
+      );
+    }
+  }
 }
 
 class Hint {
@@ -699,10 +870,20 @@ class Hint {
     this.text,
   });
 
-  factory Hint.fromJson(Map<String, dynamic> json) => Hint(
-    style: json["style"],
-    text: json["text"],
-  );
+  factory Hint.fromJson(Map<String, dynamic> json) {
+    try {
+      return Hint(
+        style: json["style"] is String ? int.tryParse(json["style"]) : json["style"],
+        text: json["text"],
+      );
+    } catch (e) {
+      print('❌ [Hint] 提示信息类型转换异常: $e');
+      return Hint(
+        style: null,
+        text: json["text"],
+      );
+    }
+  }
 }
 
 class JumpStyle {
@@ -749,14 +930,34 @@ class Vote {
     choiceCnt = json['choice_cnt'];
     share = json['share'];
     defaultShare = json['default_share'];
-    endTime = json['end_time'] is int
-        ? json['end_time']
-        : int.parse(json['end_time']);
-    joinNum = json['join_num'];
-    status = json['status'];
-    type = json['type'];
-    uid = json['uid'];
-    voteId = json['vote_id'];
+
+    try {
+      if (json['end_time'] is int) {
+        endTime = json['end_time'];
+      } else if (json['end_time'] is String) {
+        String endTimeStr = json['end_time'];
+        endTime = int.tryParse(endTimeStr);
+        if (endTime == null) {
+          print(
+            '❌ [Vote] endTime 类型转换失败: $endTimeStr (类型: ${endTimeStr.runtimeType})',
+          );
+        }
+      } else {
+        endTime = null;
+        print(
+          '❌ [Vote] endTime 类型不支持: ${json['end_time']} (类型: ${json['end_time'].runtimeType})',
+        );
+      }
+    } catch (e) {
+      print('❌ [Vote] endTime 处理异常: $e');
+      endTime = null;
+    }
+
+    joinNum = json['join_num'] is String ? int.tryParse(json['join_num']) : json['join_num'];
+    status = json['status'] is String ? int.tryParse(json['status']) : json['status'];
+    type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
+    uid = json['uid'] is String ? int.tryParse(json['uid']) : json['uid'];
+    voteId = json['vote_id'] is String ? int.tryParse(json['vote_id']) : json['vote_id'];
   }
 }
 
@@ -821,20 +1022,36 @@ class Reserve {
   int? upMid;
 
   Reserve.fromJson(Map<String, dynamic> json) {
-    button = json['button'] == null
-        ? null
-        : ReserveBtn.fromJson(json['button']);
-    desc1 = json['desc1'] == null ? null : Desc.fromJson(json['desc1']);
-    desc2 = json['desc2'] == null ? null : Desc.fromJson(json['desc2']);
-    desc3 = json['desc3'] == null ? null : Desc.fromJson(json['desc3']);
-    jumpUrl = json['jump_url'];
-    reserveTotal = json['reserve_total'];
-    rid = json['rid'];
-    state = json['state'];
-    state = json['state'];
-    stype = json['stype'];
-    title = json['title'];
-    upMid = json['up_mid'];
+    try {
+      button = json['button'] == null
+          ? null
+          : ReserveBtn.fromJson(json['button']);
+      desc1 = json['desc1'] == null ? null : Desc.fromJson(json['desc1']);
+      desc2 = json['desc2'] == null ? null : Desc.fromJson(json['desc2']);
+      desc3 = json['desc3'] == null ? null : Desc.fromJson(json['desc3']);
+      jumpUrl = json['jump_url'];
+      reserveTotal = json['reserve_total'] is String ? int.tryParse(json['reserve_total']) : json['reserve_total'];
+      rid = json['rid'] is String ? int.tryParse(json['rid']) : json['rid'];
+      state = json['state'] is String ? int.tryParse(json['state']) : json['state'];
+      stype = json['stype'] is String ? int.tryParse(json['stype']) : json['stype'];
+      title = json['title'];
+      upMid = json['up_mid'] is String ? int.tryParse(json['up_mid']) : json['up_mid'];
+    } catch (e) {
+      print('❌ [Reserve] 预约类型转换异常: $e');
+      button = json['button'] == null
+          ? null
+          : ReserveBtn.fromJson(json['button']);
+      desc1 = json['desc1'] == null ? null : Desc.fromJson(json['desc1']);
+      desc2 = json['desc2'] == null ? null : Desc.fromJson(json['desc2']);
+      desc3 = json['desc3'] == null ? null : Desc.fromJson(json['desc3']);
+      jumpUrl = json['jump_url'];
+      reserveTotal = null;
+      rid = null;
+      state = null;
+      stype = null;
+      title = json['title'];
+      upMid = null;
+    }
   }
 }
 
@@ -855,13 +1072,24 @@ class ReserveBtn {
   String? jumpUrl;
 
   ReserveBtn.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    type = json['type'];
-    checkText = json['check']?['text'] ?? '已预约';
-    uncheckText = json['uncheck']?['text'] ?? '预约';
-    disable = json['uncheck']?['disable'];
-    jumpText = json['jump_style']?['text'];
-    jumpUrl = json['jump_url'];
+    try {
+      status = json['status'] is String ? int.tryParse(json['status']) : json['status'];
+      type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
+      checkText = json['check']?['text'] ?? '已预约';
+      uncheckText = json['uncheck']?['text'] ?? '预约';
+      disable = json['uncheck']?['disable'] is String ? int.tryParse(json['uncheck']?['disable']) : json['uncheck']?['disable'];
+      jumpText = json['jump_style']?['text'];
+      jumpUrl = json['jump_url'];
+    } catch (e) {
+      print('❌ [ReserveBtn] 预约按钮类型转换异常: $e');
+      status = null;
+      type = null;
+      checkText = json['check']?['text'] ?? '已预约';
+      uncheckText = json['uncheck']?['text'] ?? '预约';
+      disable = null;
+      jumpText = json['jump_style']?['text'];
+      jumpUrl = json['jump_url'];
+    }
   }
 }
 
@@ -879,10 +1107,18 @@ class Desc {
   String? jumpUrl;
 
   Desc.fromJson(Map<String, dynamic> json) {
-    style = json['style'];
-    text = json['text'];
-    visible = json['visible'];
-    jumpUrl = json["jump_url"];
+    try {
+      style = json['style'] is String ? int.tryParse(json['style']) : json['style'];
+      text = json['text'];
+      visible = json['visible'];
+      jumpUrl = json["jump_url"];
+    } catch (e) {
+      print('❌ [Desc] 描述信息类型转换异常: $e');
+      style = null;
+      text = json['text'];
+      visible = json['visible'];
+      jumpUrl = json["jump_url"];
+    }
   }
 }
 
@@ -929,13 +1165,24 @@ class GoodItem {
   String? price;
 
   GoodItem.fromJson(Map<String, dynamic> json) {
-    brief = json['brief'];
-    cover = json['cover'];
-    id = json['id'];
-    jumpDesc = json['jump_desc'];
-    jumpUrl = json['jump_url'];
-    name = json['name'];
-    price = json['price'];
+    try {
+      brief = json['brief'];
+      cover = json['cover'];
+      id = json['id'];
+      jumpDesc = json['jump_desc'];
+      jumpUrl = json['jump_url'];
+      name = json['name'];
+      price = json['price'];
+    } catch (e) {
+      print('❌ [GoodItem] 商品项类型转换异常: $e');
+      brief = json['brief'];
+      cover = json['cover'];
+      id = json['id'];
+      jumpDesc = json['jump_desc'];
+      jumpUrl = json['jump_url'];
+      name = json['name'];
+      price = json['price'];
+    }
   }
 }
 
@@ -1046,11 +1293,20 @@ class Music {
   String? label;
 
   Music.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    cover = json['cover'];
-    title = json['title'];
-    label = json['label'];
-    jumpUrl = json['jump_url'];
+    try {
+      id = json['id'] is String ? int.tryParse(json['id']) : json['id'];
+      cover = json['cover'];
+      title = json['title'];
+      label = json['label'];
+      jumpUrl = json['jump_url'];
+    } catch (e) {
+      print('❌ [Music] 音乐类型转换异常: $e');
+      id = null;
+      cover = json['cover'];
+      title = json['title'];
+      label = json['label'];
+      jumpUrl = json['jump_url'];
+    }
   }
 }
 
@@ -1063,12 +1319,22 @@ class Medialist {
   Badge? badge;
 
   Medialist.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    cover = json['cover'];
-    title = json['title'];
-    subTitle = json['sub_title'];
-    jumpUrl = json['jump_url'];
-    badge = json['badge'] == null ? null : Badge.fromJson(json['badge']);
+    try {
+      id = json['id'];
+      cover = json['cover'];
+      title = json['title'];
+      subTitle = json['sub_title'];
+      jumpUrl = json['jump_url'];
+      badge = json['badge'] == null ? null : Badge.fromJson(json['badge']);
+    } catch (e) {
+      print('❌ [Medialist] 媒体列表类型转换异常: $e');
+      id = json['id'];
+      cover = json['cover'];
+      title = json['title'];
+      subTitle = json['sub_title'];
+      jumpUrl = json['jump_url'];
+      badge = json['badge'] == null ? null : Badge.fromJson(json['badge']);
+    }
   }
 }
 
@@ -1199,9 +1465,16 @@ class DynamicTopicModel {
   String? name;
 
   DynamicTopicModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    jumpUrl = json['jump_url'];
-    name = json['name'];
+    try {
+      id = json['id'] is String ? int.tryParse(json['id']) : json['id'];
+      jumpUrl = json['jump_url'];
+      name = json['name'];
+    } catch (e) {
+      print('❌ [DynamicTopicModel] 动态主题类型转换异常: $e');
+      id = null;
+      jumpUrl = json['jump_url'];
+      name = json['name'];
+    }
   }
 }
 
@@ -1240,18 +1513,33 @@ class DynamicArchiveModel {
 
   DynamicArchiveModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    aid = json['aid'] is String ? int.parse(json['aid']) : json['aid'];
+    try {
+      if (json['aid'] is String) {
+        String aidStr = json['aid'];
+        aid = int.tryParse(aidStr);
+        if (aid == null) {
+          print(
+            '❌ [DynamicArchiveModel] aid 类型转换失败: $aidStr (类型: ${aidStr.runtimeType})',
+          );
+        }
+      } else {
+        aid = json['aid'];
+      }
+    } catch (e) {
+      print('❌ [DynamicArchiveModel] aid 处理异常: $e');
+      aid = null;
+    }
     badge = json['badge'] == null ? null : Badge.fromJson(json['badge']);
     bvid = json['bvid'] ?? json['epid'].toString() ?? ' ';
     cover = json['cover'];
-    disablePreview = json['disable_preview'];
+    disablePreview = json['disable_preview'] is String ? int.tryParse(json['disable_preview']) : json['disable_preview'];
     durationText = json['duration_text'];
     jumpUrl = json['jump_url'];
     stat = json['stat'] != null ? Stat.fromJson(json['stat']) : null;
     title = json['title'];
-    type = json['type'];
-    epid = json['epid'];
-    seasonId = json['season_id'];
+    type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
+    epid = json['epid'] is String ? int.tryParse(json['epid']) : json['epid'];
+    seasonId = json['season_id'] is String ? int.tryParse(json['season_id']) : json['season_id'];
   }
 }
 
@@ -1277,10 +1565,18 @@ class DynamicDrawModel {
   List<DynamicDrawItemModel>? items;
 
   DynamicDrawModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    items = (json['items'] as List?)
-        ?.map<DynamicDrawItemModel>((e) => DynamicDrawItemModel.fromJson(e))
-        .toList();
+    try {
+      id = json['id'] is String ? int.tryParse(json['id']) : json['id'];
+      items = (json['items'] as List?)
+          ?.map<DynamicDrawItemModel>((e) => DynamicDrawItemModel.fromJson(e))
+          .toList();
+    } catch (e) {
+      print('❌ [DynamicDrawModel] 动态抽奖类型转换异常: $e');
+      id = null;
+      items = (json['items'] as List?)
+          ?.map<DynamicDrawItemModel>((e) => DynamicDrawItemModel.fromJson(e))
+          .toList();
+    }
   }
 }
 
@@ -1498,15 +1794,28 @@ class DynamicLive2Model {
   String? title;
 
   DynamicLive2Model.fromJson(Map<String, dynamic> json) {
-    badge = json['badge'] == null ? null : Badge.fromJson(json['badge']);
-    cover = json['cover'];
-    descFirst = json['desc_first'];
-    descSecond = json['desc_second'];
-    id = json['id'];
-    jumpUrl = json['jump_url'];
-    liveState = json['live_state'];
-    reserveType = json['reserve_type'];
-    title = json['title'];
+    try {
+      badge = json['badge'] == null ? null : Badge.fromJson(json['badge']);
+      cover = json['cover'];
+      descFirst = json['desc_first'];
+      descSecond = json['desc_second'];
+      id = json['id'] is String ? int.tryParse(json['id']) : json['id'];
+      jumpUrl = json['jump_url'];
+      liveState = json['live_state'] is String ? int.tryParse(json['live_state']) : json['live_state'];
+      reserveType = json['reserve_type'] is String ? int.tryParse(json['reserve_type']) : json['reserve_type'];
+      title = json['title'];
+    } catch (e) {
+      print('❌ [DynamicLive2Model] 动态直播2类型转换异常: $e');
+      badge = json['badge'] == null ? null : Badge.fromJson(json['badge']);
+      cover = json['cover'];
+      descFirst = json['desc_first'];
+      descSecond = json['desc_second'];
+      id = null;
+      jumpUrl = json['jump_url'];
+      liveState = null;
+      reserveType = null;
+      title = json['title'];
+    }
   }
 }
 
@@ -1564,7 +1873,27 @@ class DynamicStat {
   bool? status;
 
   DynamicStat.fromJson(Map<String, dynamic> json) {
-    count = json['count'] == 0 ? null : _parseInt(json['count']);
+    try {
+      dynamic countValue = json['count'];
+      if (countValue is String) {
+        String countStr = countValue;
+        int? parsedCount = int.tryParse(countStr);
+        count = parsedCount == 0 ? null : parsedCount;
+        if (parsedCount == null) {
+          print(
+            '❌ [DynamicStat] count 类型转换失败: $countStr (类型: ${countStr.runtimeType})',
+          );
+        }
+      } else {
+        count = countValue == 0 ? null : countValue;
+      }
+      if (count != null && count == 0) {
+        count = null;
+      }
+    } catch (e) {
+      print('❌ [DynamicStat] count 处理异常: $e');
+      count = null;
+    }
     forbidden = json['forbidden'];
     status = json['status'];
   }

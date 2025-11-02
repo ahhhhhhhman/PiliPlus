@@ -20,7 +20,20 @@ class Owner implements BaseOwner {
   String? face;
 
   Owner.fromJson(Map<String, dynamic> json) {
-    mid = json["mid"];
+    try {
+      if (json["mid"] is String) {
+        String midStr = json["mid"];
+        mid = int.tryParse(midStr);
+        if (mid == null) {
+          print('❌ [Owner] mid 类型转换失败: $midStr (类型: ${midStr.runtimeType})');
+        }
+      } else {
+        mid = json["mid"];
+      }
+    } catch (e) {
+      print('❌ [Owner] mid 处理异常: $e');
+      mid = null;
+    }
     name = json["name"];
     face = json['face'];
   }
