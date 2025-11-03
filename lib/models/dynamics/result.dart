@@ -87,7 +87,9 @@ class DynamicsDataModel {
     }
 
     offset = json['offset'];
-    total = json['total'] is String ? int.tryParse(json['total']) : json['total'];
+    total = json['total'] is String
+        ? int.tryParse(json['total'])
+        : json['total'];
   }
 }
 
@@ -148,7 +150,9 @@ class Fallback {
     try {
       return Fallback(
         id: json['id'],
-        type: json['type'] is String ? int.tryParse(json['type']) : json['type'],
+        type: json['type'] is String
+            ? int.tryParse(json['type'])
+            : json['type'],
       );
     } catch (e) {
       print('❌ [Fallback] 降级类型转换异常: $e');
@@ -351,7 +355,9 @@ class ModuleBlocked {
   ModuleBlocked.fromJson(Map<String, dynamic> json) {
     try {
       bgImg = json['bg_img'] == null ? null : BgImg.fromJson(json['bg_img']);
-      blockedType = json['blocked_type'] is String ? int.tryParse(json['blocked_type']) : json['blocked_type'];
+      blockedType = json['blocked_type'] is String
+          ? int.tryParse(json['blocked_type'])
+          : json['blocked_type'];
       button = json['button'] == null ? null : Button.fromJson(json['button']);
       title = json['title'];
       hintMessage = json['hint_message'];
@@ -380,14 +386,18 @@ class Button {
 
   Button.fromJson(Map<String, dynamic> json) {
     try {
-      handleType = json['handle_type'] is String ? int.tryParse(json['handle_type']) : json['handle_type'];
+      handleType = json['handle_type'] is String
+          ? int.tryParse(json['handle_type'])
+          : json['handle_type'];
       icon = json['icon'];
       jumpUrl = json['jump_url'];
       text = json['text'];
       jumpStyle = json['jump_style'] == null
           ? null
           : JumpStyle.fromJson(json['jump_style']);
-      status = json['status'] is String ? int.tryParse(json['status']) : json['status'];
+      status = json['status'] is String
+          ? int.tryParse(json['status'])
+          : json['status'];
       type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
       check = json['check'] == null ? null : Check.fromJson(json['check']);
     } catch (e) {
@@ -412,7 +422,9 @@ class Check {
 
   Check.fromJson(Map<String, dynamic> json) {
     try {
-      disable = json['disable'] is String ? int.tryParse(json['disable']) : json['disable'];
+      disable = json['disable'] is String
+          ? int.tryParse(json['disable'])
+          : json['disable'];
       text = json['text'];
     } catch (e) {
       print('❌ [Check] 检查框类型转换异常: $e');
@@ -441,7 +453,9 @@ class Basic {
   Basic.fromJson(Map<String, dynamic> json) {
     try {
       commentIdStr = json['comment_id_str'];
-      commentType = json['comment_type'] is String ? int.tryParse(json['comment_type']) : json['comment_type'];
+      commentType = json['comment_type'] is String
+          ? int.tryParse(json['comment_type'])
+          : json['comment_type'];
       likeIcon = json['like_icon'];
       ridStr = json['rid_str'];
     } catch (e) {
@@ -474,7 +488,9 @@ class ModuleAuthorModel extends Avatar {
     label = json['label'];
     pubAction = json['pub_action'];
     pubTime = json['pub_time'];
-    pubTs = json['pub_ts'] is String ? int.tryParse(json['pub_ts']) ?? 0 : json['pub_ts'];
+    pubTs = json['pub_ts'] is String
+        ? int.tryParse(json['pub_ts']) ?? 0
+        : json['pub_ts'];
     pubTs = pubTs == 0 ? null : pubTs;
     type = json['type'];
     if (PendantAvatar.showDynDecorate) {
@@ -512,7 +528,9 @@ class Decorate {
         id: json["id"] is String ? int.tryParse(json["id"]) : json["id"],
         jumpUrl: json["jump_url"],
         name: json["name"],
-        type: json["type"] is String ? int.tryParse(json["type"]) : json["type"],
+        type: json["type"] is String
+            ? int.tryParse(json["type"])
+            : json["type"],
       );
     } catch (e) {
       print('❌ [Decorate] 装饰类型转换异常: $e');
@@ -550,7 +568,9 @@ class Fan {
         isFan: json["is_fan"],
         numPrefix: json["num_prefix"],
         numStr: json["num_str"],
-        number: json["number"] is String ? int.tryParse(json["number"]) : json["number"],
+        number: json["number"] is String
+            ? int.tryParse(json["number"])
+            : json["number"],
       );
     } catch (e) {
       print('❌ [Fan] Fan信息类型转换异常: $e');
@@ -695,7 +715,9 @@ class MatchInfo {
         rightTeam: json["right_team"] == null
             ? null
             : TTeam.fromJson(json["right_team"]),
-        status: json["status"] is String ? int.tryParse(json["status"]) : json["status"],
+        status: json["status"] is String
+            ? int.tryParse(json["status"])
+            : json["status"],
         subTitle: json["sub_title"],
         title: json["title"],
       );
@@ -782,7 +804,9 @@ class AddCommon {
         headText: json["head_text"],
         idStr: json["id_str"],
         jumpUrl: json["jump_url"],
-        style: json["style"] is String ? int.tryParse(json["style"]) : json["style"],
+        style: json["style"] is String
+            ? int.tryParse(json["style"])
+            : json["style"],
         subType: json["sub_type"],
         title: json["title"],
       );
@@ -837,11 +861,19 @@ class UpowerLottery {
         hint: json["hint"] == null ? null : Hint.fromJson(json["hint"]),
         jumpUrl: json["jump_url"],
         rid: json["rid"] is String ? int.tryParse(json["rid"]) : json["rid"],
-        state: json["state"] is String ? int.tryParse(json["state"]) : json["state"],
+        state: json["state"] is String
+            ? int.tryParse(json["state"])
+            : json["state"],
         title: json["title"],
-        upMid: json["up_mid"] is String ? int.tryParse(json["up_mid"]) : json["up_mid"],
-        upowerActionState: json["upower_action_state"] is String ? int.tryParse(json["upower_action_state"]) : json["upower_action_state"],
-        upowerLevel: json["upower_level"] is String ? int.tryParse(json["upower_level"]) : json["upower_level"],
+        upMid: json["up_mid"] is String
+            ? int.tryParse(json["up_mid"])
+            : json["up_mid"],
+        upowerActionState: json["upower_action_state"] is String
+            ? int.tryParse(json["upower_action_state"])
+            : json["upower_action_state"],
+        upowerLevel: json["upower_level"] is String
+            ? int.tryParse(json["upower_level"])
+            : json["upower_level"],
       );
     } catch (e) {
       print('❌ [UpowerLottery] 天气福利类型转换异常: $e');
@@ -873,7 +905,9 @@ class Hint {
   factory Hint.fromJson(Map<String, dynamic> json) {
     try {
       return Hint(
-        style: json["style"] is String ? int.tryParse(json["style"]) : json["style"],
+        style: json["style"] is String
+            ? int.tryParse(json["style"])
+            : json["style"],
         text: json["text"],
       );
     } catch (e) {
@@ -953,11 +987,17 @@ class Vote {
       endTime = null;
     }
 
-    joinNum = json['join_num'] is String ? int.tryParse(json['join_num']) : json['join_num'];
-    status = json['status'] is String ? int.tryParse(json['status']) : json['status'];
+    joinNum = json['join_num'] is String
+        ? int.tryParse(json['join_num'])
+        : json['join_num'];
+    status = json['status'] is String
+        ? int.tryParse(json['status'])
+        : json['status'];
     type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
     uid = json['uid'] is String ? int.tryParse(json['uid']) : json['uid'];
-    voteId = json['vote_id'] is String ? int.tryParse(json['vote_id']) : json['vote_id'];
+    voteId = json['vote_id'] is String
+        ? int.tryParse(json['vote_id'])
+        : json['vote_id'];
   }
 }
 
@@ -1030,12 +1070,20 @@ class Reserve {
       desc2 = json['desc2'] == null ? null : Desc.fromJson(json['desc2']);
       desc3 = json['desc3'] == null ? null : Desc.fromJson(json['desc3']);
       jumpUrl = json['jump_url'];
-      reserveTotal = json['reserve_total'] is String ? int.tryParse(json['reserve_total']) : json['reserve_total'];
+      reserveTotal = json['reserve_total'] is String
+          ? int.tryParse(json['reserve_total'])
+          : json['reserve_total'];
       rid = json['rid'] is String ? int.tryParse(json['rid']) : json['rid'];
-      state = json['state'] is String ? int.tryParse(json['state']) : json['state'];
-      stype = json['stype'] is String ? int.tryParse(json['stype']) : json['stype'];
+      state = json['state'] is String
+          ? int.tryParse(json['state'])
+          : json['state'];
+      stype = json['stype'] is String
+          ? int.tryParse(json['stype'])
+          : json['stype'];
       title = json['title'];
-      upMid = json['up_mid'] is String ? int.tryParse(json['up_mid']) : json['up_mid'];
+      upMid = json['up_mid'] is String
+          ? int.tryParse(json['up_mid'])
+          : json['up_mid'];
     } catch (e) {
       print('❌ [Reserve] 预约类型转换异常: $e');
       button = json['button'] == null
@@ -1073,11 +1121,15 @@ class ReserveBtn {
 
   ReserveBtn.fromJson(Map<String, dynamic> json) {
     try {
-      status = json['status'] is String ? int.tryParse(json['status']) : json['status'];
+      status = json['status'] is String
+          ? int.tryParse(json['status'])
+          : json['status'];
       type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
       checkText = json['check']?['text'] ?? '已预约';
       uncheckText = json['uncheck']?['text'] ?? '预约';
-      disable = json['uncheck']?['disable'] is String ? int.tryParse(json['uncheck']?['disable']) : json['uncheck']?['disable'];
+      disable = json['uncheck']?['disable'] is String
+          ? int.tryParse(json['uncheck']?['disable'])
+          : json['uncheck']?['disable'];
       jumpText = json['jump_style']?['text'];
       jumpUrl = json['jump_url'];
     } catch (e) {
@@ -1108,7 +1160,9 @@ class Desc {
 
   Desc.fromJson(Map<String, dynamic> json) {
     try {
-      style = json['style'] is String ? int.tryParse(json['style']) : json['style'];
+      style = json['style'] is String
+          ? int.tryParse(json['style'])
+          : json['style'];
       text = json['text'];
       visible = json['visible'];
       jumpUrl = json["jump_url"];
@@ -1532,14 +1586,18 @@ class DynamicArchiveModel {
     badge = json['badge'] == null ? null : Badge.fromJson(json['badge']);
     bvid = json['bvid'] ?? json['epid'].toString() ?? ' ';
     cover = json['cover'];
-    disablePreview = json['disable_preview'] is String ? int.tryParse(json['disable_preview']) : json['disable_preview'];
+    disablePreview = json['disable_preview'] is String
+        ? int.tryParse(json['disable_preview'])
+        : json['disable_preview'];
     durationText = json['duration_text'];
     jumpUrl = json['jump_url'];
     stat = json['stat'] != null ? Stat.fromJson(json['stat']) : null;
     title = json['title'];
     type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
     epid = json['epid'] is String ? int.tryParse(json['epid']) : json['epid'];
-    seasonId = json['season_id'] is String ? int.tryParse(json['season_id']) : json['season_id'];
+    seasonId = json['season_id'] is String
+        ? int.tryParse(json['season_id'])
+        : json['season_id'];
   }
 }
 
@@ -1667,7 +1725,7 @@ class Emoji {
     url = json['webp_url'] ?? json['gif_url'] ?? json['icon_url'];
     size = json['size'] ?? 1;
     text = json['text'];
-    type = json['type'];
+    type = json['type'] is String ? int.tryParse(json['type']) : json['type'];
   }
 }
 
@@ -1801,8 +1859,12 @@ class DynamicLive2Model {
       descSecond = json['desc_second'];
       id = json['id'] is String ? int.tryParse(json['id']) : json['id'];
       jumpUrl = json['jump_url'];
-      liveState = json['live_state'] is String ? int.tryParse(json['live_state']) : json['live_state'];
-      reserveType = json['reserve_type'] is String ? int.tryParse(json['reserve_type']) : json['reserve_type'];
+      liveState = json['live_state'] is String
+          ? int.tryParse(json['live_state'])
+          : json['live_state'];
+      reserveType = json['reserve_type'] is String
+          ? int.tryParse(json['reserve_type'])
+          : json['reserve_type'];
       title = json['title'];
     } catch (e) {
       print('❌ [DynamicLive2Model] 动态直播2类型转换异常: $e');
