@@ -1,5 +1,3 @@
-fork自[PiliPlus](https://github.com/bggRGjQaUbCoE/PiliPlus)，修改部分bug 
-原[README.md](https://github.com/ahhhhhhhman/PiliPlus/README_OLD.md)
 <div align="center">
     <img width="200" height="200" src="assets/images/logo/logo.png">
 </div>
