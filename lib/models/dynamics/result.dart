@@ -961,9 +961,17 @@ class Vote {
 
   Vote.fromJson(Map<String, dynamic> json) {
     desc = json['desc'];
-    choiceCnt = json['choice_cnt'];
+    if (json['choice_cnt'] is int) {
+      choiceCnt = json['choice_cnt'];
+    } else if (json['choice_cnt'] is String) {
+      choiceCnt = int.tryParse(json['choice_cnt']);
+    }
     share = json['share'];
-    defaultShare = json['default_share'];
+    if (json['default_share'] is int) {
+      defaultShare = json['default_share'];
+    } else if (json['default_share'] is String) {
+      defaultShare = int.tryParse(json['default_share']);
+    }
 
     try {
       if (json['end_time'] is int) {
