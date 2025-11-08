@@ -1822,7 +1822,7 @@ class DynamicLiveModel {
       uid = livePlayInfo['uid'];
       parentAreaName = livePlayInfo['parent_area_name'];
       roomId = livePlayInfo['room_id'];
-      liveId = livePlayInfo['live_id'];
+      liveId = livePlayInfo['live_id']?.toString();
       liveStatus = livePlayInfo['live_status'];
       cover = livePlayInfo['cover'];
       online = livePlayInfo['online'];
